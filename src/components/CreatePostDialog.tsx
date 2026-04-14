@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Upload, Plus, Github, ExternalLink, Image, FileVideo, Sparkles } from "lucide-react";
+import { X, Upload, Plus, ExternalLink, Image, FileVideo, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface CreatePostDialogProps {
@@ -21,7 +21,7 @@ export function CreatePostDialog({ open, onOpenChange, editData }: CreatePostDia
   const [tools, setTools] = useState<string[]>(editData?.tools ?? []);
   const [toolInput, setToolInput] = useState("");
   const [challenges, setChallenges] = useState(editData?.challenges ?? "");
-  const [githubLink, setGithubLink] = useState(editData?.githubLink ?? "");
+  const [githubLink, setLink] = useState(editData?.githubLink ?? "");
   const [liveLink, setLiveLink] = useState(editData?.liveLink ?? "");
   const [step, setStep] = useState(1);
 
@@ -156,11 +156,11 @@ export function CreatePostDialog({ open, onOpenChange, editData }: CreatePostDia
             <div className="space-y-5 animate-fade-in-up">
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                  <Github className="w-4 h-4" /> GitHub Repository
+                  <className="w-4 h-4" /> GitHub Repository
                 </label>
                 <input
                   value={githubLink}
-                  onChange={(e) => setGithubLink(e.target.value)}
+                  onChange={(e) => setLink(e.target.value)}
                   placeholder="https://github.com/username/repo"
                   className="w-full h-12 px-4 rounded-xl bg-secondary border border-border/50 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-mono"
                 />

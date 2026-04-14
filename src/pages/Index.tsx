@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Code2, ArrowRight, Rocket, Users, Trophy, Github, Star } from "lucide-react";
+import { Code2, ArrowRight, Rocket, Users, Trophy,  Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Index() {

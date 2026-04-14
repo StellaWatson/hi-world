@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Code2, Github, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Code2, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Login() {
@@ -32,7 +32,7 @@ export default function Login() {
           {/* Social login */}
           <div className="space-y-3 mb-6">
             <button className="w-full h-12 flex items-center justify-center gap-3 rounded-xl bg-card border border-border/50 text-foreground font-medium hover:bg-secondary transition-colors">
-              <Github className="w-5 h-5" />
+              <className="w-5 h-5" />
               Continue with GitHub
             </button>
             <button className="w-full h-12 flex items-center justify-center gap-3 rounded-xl bg-card border border-border/50 text-foreground font-medium hover:bg-secondary transition-colors">
