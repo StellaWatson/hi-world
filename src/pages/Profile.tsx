@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { PostCard } from "@/components/PostCard";
 import { mockUser, mockPosts } from "@/lib/mockData";
 import { MapPin, Globe, Calendar, Edit3, Users, FolderOpen } from "lucide-react";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
 export default function Profile() {
@@ -42,8 +43,8 @@ export default function Profile() {
             {/* Meta */}
             <div className="flex flex-wrap gap-4 mt-4 text-sm text-muted-foreground">
               <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5" />{mockUser.location}</span>
-              <a href="#" className="flex items-center gap-1.5 hover:text-foreground">▪{mockUser.github}</a>
-              <a href="#" className="flex items-center gap-1.5 hover:text-foreground">▪{mockUser.linkedin}</a>
+              <a href="#" className="flex items-center gap-1.5 hover:text-foreground"><GithubIcon className="w-3.5 h-3.5" />{mockUser.github}</a>
+              <a href="#" className="flex items-center gap-1.5 hover:text-foreground"><LinkedinIcon className="w-3.5 h-3.5" />{mockUser.linkedin}</a>
               <a href="#" className="flex items-center gap-1.5 hover:text-foreground"><Globe className="w-3.5 h-3.5" />{mockUser.website}</a>
               <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />Joined {new Date(mockUser.joinedAt).toLocaleDateString("en", { month: "short", year: "numeric" })}</span>
             </div>

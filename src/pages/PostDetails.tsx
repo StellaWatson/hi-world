@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { mockPosts } from "@/lib/mockData";
 import { Heart, MessageCircle, ExternalLink, Share2, Bookmark, ArrowLeft, Send, Calendar, Wrench } from "lucide-react";
+import { GithubIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
 export default function PostDetails() {
@@ -72,7 +73,7 @@ export default function PostDetails() {
             <div className="flex gap-3 mb-6">
               {post.githubLink && (
                 <a href={post.githubLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-secondary text-sm font-medium text-foreground hover:bg-muted transition-colors">
-                  <className="w-4 h-4" /> View Source
+                  <GithubIcon className="w-4 h-4" /> View Source
                 </a>
               )}
               {post.liveLink && (

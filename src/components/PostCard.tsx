@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, MessageCircle, ExternalLink, Share2, Bookmark, MoreHorizontal } from "lucide-react";
+import { GithubIcon } from "@/components/icons";
 import type { Post } from "@/lib/mockData";
 
 export function PostCard({ post }: { post: Post }) {
@@ -60,7 +61,7 @@ export function PostCard({ post }: { post: Post }) {
       <div className="px-5 pt-3 flex gap-3">
         {post.githubLink && (
           <a href={post.githubLink} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-accent transition-colors font-mono">
-            <className="w-3.5 h-3.5" /> Source
+            <GithubIcon className="w-3.5 h-3.5" /> Source
           </a>
         )}
         {post.liveLink && (

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { X, Upload, Plus, ExternalLink, Image, FileVideo, Sparkles } from "lucide-react";
+import { GithubIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
 interface CreatePostDialogProps {
@@ -156,7 +157,7 @@ export function CreatePostDialog({ open, onOpenChange, editData }: CreatePostDia
             <div className="space-y-5 animate-fade-in-up">
               <div>
                 <label className="flex items-center gap-2 text-sm font-medium text-foreground mb-2">
-                  <className="w-4 h-4" /> GitHub Repository
+                  <GithubIcon className="w-4 h-4" /> GitHub Repository
                 </label>
                 <input
                   value={githubLink}
