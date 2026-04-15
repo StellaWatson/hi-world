@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Code2, ArrowRight, Rocket, Users, Trophy,  Star } from "lucide-react";
+import { Code2, ArrowRight, Rocket, Users, Trophy, Zap, Terminal, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Index() {
@@ -32,7 +32,7 @@ export default function Index() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_92%_50%/0.08),transparent_60%)]" />
         <div className="max-w-3xl mx-auto relative">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-mono mb-6 animate-fade-in-up">
-            <Star className="w-4 h-4" /> Instagram for Developer Projects
+            <Terminal className="w-4 h-4" /> Where Developers Showcase What They Build
           </div>
           <h1 className="font-mono font-bold text-4xl md:text-6xl leading-tight mb-6 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             Build. Share.<br />
@@ -69,6 +69,23 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Stats */}
+      <section className="py-12 px-4">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+          {[
+            { value: "12K+", label: "Developers" },
+            { value: "34K+", label: "Projects Shared" },
+            { value: "890+", label: "Got Hired" },
+            { value: "150K+", label: "Code Reviews" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center p-4 rounded-xl bg-card border border-border/50">
+              <p className="font-mono font-bold text-2xl text-gradient">{stat.value}</p>
+              <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Features */}
       <section className="py-20 px-4">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -77,7 +94,7 @@ export default function Index() {
             { icon: Users, title: "Get Feedback", desc: "Receive meaningful comments from peers. Improve your code and grow as a developer." },
             { icon: Trophy, title: "Climb Rankings", desc: "Earn engagement points. Top the leaderboard and get discovered by employers." },
           ].map((f, i) => (
-            <div key={i} className="bg-card rounded-2xl border border-border/50 p-6 hover:border-primary/30 transition-all group" style={{ animationDelay: `${i * 100}ms` }}>
+            <div key={i} className="bg-card rounded-2xl border border-border/50 p-6 hover:border-primary/30 transition-all group">
               <div className="w-12 h-12 rounded-xl bg-gradient-primary flex items-center justify-center mb-4 group-hover:shadow-glow transition-shadow">
                 <f.icon className="w-6 h-6 text-primary-foreground" />
               </div>
