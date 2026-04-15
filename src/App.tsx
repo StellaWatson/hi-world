@@ -10,6 +10,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import EditProfile from "./pages/EditProfile";
 import PostDetails from "./pages/PostDetails";
+import Leaderboard from "./pages/Leaderboard";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import NotFound from "./pages/NotFound";
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/profile/:username" element={<Profile />} />
           <Route path="/edit-profile" element={<EditProfile />} />
           <Route path="/post/:id" element={<PostDetails />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
