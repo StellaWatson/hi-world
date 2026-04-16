@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
+import { WelcomeModal } from "@/components/WelcomeModal";
 import { PostCard } from "@/components/PostCard";
 import { FeaturedDevs } from "@/components/FeaturedDevs";
 import { PopularCreators } from "@/components/PopularCreators";
@@ -137,6 +138,7 @@ export default function Feed() {
       </div>
 
       <CreatePostDialog open={createOpen} onOpenChange={setCreateOpen} />
+      <WelcomeModal />
     </div>
   );
 }
