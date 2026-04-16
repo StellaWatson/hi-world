@@ -7,7 +7,8 @@ import { PopularCreators } from "@/components/PopularCreators";
 import { LeaderboardSidebar } from "@/components/LeaderboardSidebar";
 import { CreatePostDialog } from "@/components/CreatePostDialog";
 import { mockPosts } from "@/lib/mockData";
-import { Flame, Clock, TrendingUp, Sparkles, Search, Bell, Code2, Plus, Menu, X } from "lucide-react";
+import { NotificationDropdown } from "@/components/NotificationDropdown";
+import { Flame, Clock, TrendingUp, Sparkles, Search, Code2, Plus, Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -60,10 +61,7 @@ export default function Feed() {
             </div>
 
             {/* Actions */}
-            <button className="relative p-2.5 rounded-xl hover:bg-secondary transition-colors">
-              <Bell className="w-5 h-5 text-muted-foreground" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-primary" />
-            </button>
+            <NotificationDropdown />
             <Link to="/profile" className="w-9 h-9 rounded-xl overflow-hidden border-2 border-border/50 hover:border-primary/50 transition-colors hidden sm:block">
               <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop" alt="Profile" className="w-full h-full object-cover" />
             </Link>
