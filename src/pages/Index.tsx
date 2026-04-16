@@ -32,7 +32,7 @@ export default function Index() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(38_92%_50%/0.08),transparent_60%)]" />
         <div className="max-w-3xl mx-auto relative">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-mono mb-6 animate-fade-in-up">
-            <Terminal className="w-4 h-4" /> Where Developers Showcase What They Build
+            <Terminal className="w-4 h-4" /> Where Developers Shine ✨
           </div>
           <h1 className="font-mono font-bold text-4xl md:text-6xl leading-tight mb-6 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
             Build. Share.<br />
