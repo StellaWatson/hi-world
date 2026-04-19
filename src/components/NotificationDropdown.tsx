@@ -104,11 +104,9 @@ export function NotificationDropdown() {
       placement="bottomRight"
       dropdownRender={() => content}
     >
-      <span style={{ display: "inline-flex" }}>
-        <Badge count={unreadCount} size="small">
-          <Button type="text" shape="circle" icon={<BellOutlined style={{ fontSize: 18 }} />} />
-        </Badge>
-      </span>
+      <Badge count={unreadCount} size="small">
+        <Button type="text" shape="circle" icon={<BellOutlined style={{ fontSize: 18 }} />} />
+      </Badge>
     </Dropdown>
   );
 }
