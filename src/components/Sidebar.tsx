@@ -1,82 +1,128 @@
-import { Link, useLocation } from "react-router-dom";
-import { Code2, Home, Compass, User, MessageSquare, Trophy, Settings, LogOut, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Layout, Menu, Button, Avatar, Badge, Typography, Space } from "antd";
+import {
+  HomeOutlined,
+  CompassOutlined,
+  TrophyOutlined,
+  MessageOutlined,
+  UserOutlined,
+  SettingOutlined,
+  PlusOutlined,
+  CodeOutlined,
+} from "@ant-design/icons";
+
+const { Sider } = Layout;
+const { Text } = Typography;
 
 const navItems = [
-  { icon: Home, label: "Home", path: "/feed" },
-  { icon: Compass, label: "Explore", path: "/explore" },
-  { icon: Trophy, label: "Leaderboard", path: "/leaderboard" },
-  { icon: MessageSquare, label: "Messages", path: "/messages", badge: 3 },
-  { icon: User, label: "My Profile", path: "/profile" },
-  { icon: Settings, label: "Settings", path: "/settings" },
+  { key: "/feed", icon: <HomeOutlined />, label: "Home" },
+  { key: "/explore", icon: <CompassOutlined />, label: "Explore" },
+  { key: "/leaderboard", icon: <TrophyOutlined />, label: "Leaderboard" },
+  { key: "/messages", icon: <MessageOutlined />, label: "Messages" },
+  { key: "/profile", icon: <UserOutlined />, label: "My Profile" },
+  { key: "/settings", icon: <SettingOutlined />, label: "Settings" },
 ];
 
 export function Sidebar({ onCreatePost }: { onCreatePost?: () => void }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
-    <aside className="hidden lg:flex flex-col w-[240px] h-screen sticky top-0 bg-card border-r border-border/50 p-4">
-      {/* Logo */}
-      <Link to="/" className="flex items-center gap-2 px-3 py-2 mb-6">
-        <div className="w-9 h-9 rounded-lg bg-gradient-primary flex items-center justify-center">
-          <Code2 className="w-5 h-5 text-primary-foreground" />
-        </div>
-        <span className="font-mono font-bold text-lg text-foreground">
-          Hello<span className="text-gradient">World</span>
-        </span>
-      </Link>
+    <Sider
+      width={240}
+      breakpoint="lg"
+      collapsedWidth={0}
+      trigger={null}
+      style={{
+        height: "100vh",
+        position: "sticky",
+        top: 0,
+        left: 0,
+        borderRight: "1px solid var(--hw-color-border-secondary)",
+        padding: "16px 12px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        {/* Logo */}
+        <Link to="/" style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", marginBottom: 20 }}>
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              background: "linear-gradient(135deg, #F59E0B, #F97316)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CodeOutlined style={{ color: "#0A0A0F", fontSize: 18 }} />
+          </div>
+          <Text strong style={{ fontFamily: "JetBrains Mono, monospace", fontSize: 17 }}>
+            Hello<span style={{ color: "#F59E0B" }}>World</span>
+          </Text>
+        </Link>
 
-      {/* Nav */}
-      <nav className="flex-1 space-y-1">
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                isActive
-                  ? "bg-primary/10 text-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-              }`}
-            >
-              <item.icon className="w-5 h-5" />
-              {item.label}
-              {item.badge && (
-                <span className="ml-auto px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-xs font-mono">
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          );
-        })}
-      </nav>
+        {/* Nav */}
+        <Menu
+          theme="dark"
+          mode="inline"
+          selectedKeys={[location.pathname]}
+          items={navItems.map((i) => ({
+            key: i.key,
+            icon: i.icon,
+            label:
+              i.key === "/messages" ? (
+                <Space>
+                  <span>{i.label}</span>
+                  <Badge count={3} size="small" />
+                </Space>
+              ) : (
+                i.label
+              ),
+          }))}
+          onClick={({ key }) => navigate(key)}
+          style={{ background: "transparent", border: "none", flex: 1 }}
+        />
 
-      {/* Create Post */}
-      {onCreatePost && (
-        <Button
-          onClick={onCreatePost}
-          className="w-full bg-gradient-primary text-primary-foreground rounded-xl shadow-glow hover:opacity-90 gap-2 mb-4"
+        {/* Create Post */}
+        {onCreatePost && (
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={onCreatePost}
+            block
+            size="large"
+            style={{ marginBottom: 16, fontWeight: 600 }}
+          >
+            New Project
+          </Button>
+        )}
+
+        {/* User */}
+        <Link
+          to="/profile"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "10px 12px",
+            borderRadius: 8,
+            borderTop: "1px solid var(--hw-color-border-secondary)",
+            paddingTop: 16,
+          }}
         >
-          <Plus className="w-4 h-4" />
-          New Project
-        </Button>
-      )}
-
-      {/* User */}
-      <div className="border-t border-border/30 pt-4">
-        <Link to="/profile" className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-secondary transition-colors">
-          <img
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop"
-            alt="Profile"
-            className="w-9 h-9 rounded-xl object-cover border border-border/50"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">Alex Chen</p>
-            <p className="text-xs text-muted-foreground font-mono">@alexdev</p>
+          <Avatar size={36} src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop" />
+          <div style={{ minWidth: 0, flex: 1 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: "var(--hw-color-text-base)" }}>Alex Chen</div>
+            <div style={{ fontSize: 12, color: "var(--hw-color-text-tertiary)", fontFamily: "JetBrains Mono, monospace" }}>
+              @alexdev
+            </div>
           </div>
         </Link>
       </div>
-    </aside>
+    </Sider>
   );
 }

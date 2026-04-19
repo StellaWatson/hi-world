@@ -8,7 +8,7 @@ import { theme as antdTheme, type ThemeConfig } from "antd";
  */
 export const helloWorldAntdTheme: ThemeConfig = {
   algorithm: antdTheme.darkAlgorithm,
-  cssVar: true,
+  cssVar: { key: "hw" },
   hashed: true,
   token: {
     // Brand
