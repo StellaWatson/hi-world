@@ -1,16 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Input, Avatar, Tabs, Space, Typography, Button, Drawer } from "antd";
-import {
-  SearchOutlined,
-  FireOutlined,
-  ClockCircleOutlined,
-  RiseOutlined,
-  ThunderboltOutlined,
-  MenuOutlined,
-  PlusOutlined,
-  CodeOutlined,
-} from "@ant-design/icons";
+import { Search, Flame, Clock, TrendingUp, Zap, Menu, Plus, Code2 } from "lucide-react";
 import { Sidebar } from "@/components/Sidebar";
 import { WelcomeModal } from "@/components/WelcomeModal";
 import { PostCard } from "@/components/PostCard";
@@ -19,148 +9,134 @@ import { PopularCreators } from "@/components/PopularCreators";
 import { LeaderboardSidebar } from "@/components/LeaderboardSidebar";
 import { CreatePostDialog } from "@/components/CreatePostDialog";
 import { NotificationDropdown } from "@/components/NotificationDropdown";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { mockPosts } from "@/lib/mockData";
-
-const { Header, Content } = Layout;
-const { Text, Title } = Typography;
+import { cn } from "@/lib/utils";
 
 const filterTabs = [
-  { key: "trending", label: <Space size={6}><FireOutlined />Trending</Space> },
-  { key: "latest", label: <Space size={6}><ClockCircleOutlined />Latest</Space> },
-  { key: "top", label: <Space size={6}><RiseOutlined />Top</Space> },
-  { key: "foryou", label: <Space size={6}><ThunderboltOutlined />For You</Space> },
+  { id: "trending", label: "Trending", icon: Flame },
+  { id: "latest", label: "Latest", icon: Clock },
+  { id: "top", label: "Top", icon: TrendingUp },
+  { id: "foryou", label: "For You", icon: Zap },
 ];
 
 export default function Feed() {
   const [activeFilter, setActiveFilter] = useState("trending");
   const [createOpen, setCreateOpen] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <Layout style={{ minHeight: "100vh", background: "var(--hw-color-bg-layout)" }}>
+    <div className="min-h-screen bg-background flex">
       <Sidebar onCreatePost={() => setCreateOpen(true)} />
 
-      <Layout style={{ background: "transparent" }}>
-        <Header
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 40,
-            background: "rgba(15, 15, 20, 0.85)",
-            backdropFilter: "blur(16px)",
-            borderBottom: "1px solid var(--hw-color-border-secondary)",
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
-            padding: "0 24px",
-          }}
-        >
-          {/* Mobile: menu + logo */}
-          <Space className="lg:hidden" style={{ display: "flex" }}>
-            <Button type="text" icon={<MenuOutlined />} onClick={() => setDrawerOpen(true)} />
-            <Link to="/" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 6, background: "linear-gradient(135deg, #F59E0B, #F97316)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <CodeOutlined style={{ color: "#0A0A0F", fontSize: 14 }} />
-              </div>
-            </Link>
-          </Space>
-
-          <Title level={4} style={{ margin: 0, fontFamily: "JetBrains Mono, monospace", display: "none" }} className="sm:!block">
-            Home
-          </Title>
-
-          <div style={{ flex: 1, maxWidth: 480, marginLeft: "auto" }}>
-            <Input
-              size="large"
-              placeholder="Search projects, developers..."
-              prefix={<SearchOutlined style={{ color: "var(--hw-color-text-tertiary)" }} />}
-              style={{ borderRadius: 10 }}
-            />
-          </div>
-
-          <Space size="small">
-            <NotificationDropdown />
-            <Link to="/profile">
-              <Avatar src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop" shape="square" style={{ borderRadius: 8 }} />
-            </Link>
-          </Space>
-        </Header>
-
-        <Drawer
-          placement="left"
-          open={drawerOpen}
-          onClose={() => setDrawerOpen(false)}
-          width={280}
-          styles={{ body: { padding: 16 } }}
-        >
-          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-            <Button type="primary" block icon={<PlusOutlined />} onClick={() => { setCreateOpen(true); setDrawerOpen(false); }}>
-              New Project
-            </Button>
-            {[
-              { label: "Home", path: "/feed" },
-              { label: "Leaderboard", path: "/leaderboard" },
-              { label: "Profile", path: "/profile" },
-              { label: "Settings", path: "/settings" },
-            ].map((i) => (
-              <Link key={i.path} to={i.path} onClick={() => setDrawerOpen(false)}>
-                <Button type="text" block style={{ textAlign: "left", justifyContent: "flex-start" }}>
-                  {i.label}
+      <div className="flex-1 min-w-0">
+        <header className="sticky top-0 z-40 glass border-b border-border/30">
+          <div className="flex items-center gap-3 px-4 lg:px-8 h-16">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="lg:hidden rounded-xl">
+                  <Menu className="w-5 h-5" />
                 </Button>
-              </Link>
-            ))}
-          </Space>
-        </Drawer>
-
-        <Content style={{ padding: "24px", maxWidth: 1200, width: "100%", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 320px", gap: 32 }} className="feed-grid">
-            <div>
-              {/* Featured devs */}
-              <div style={{ marginBottom: 24 }}>
-                <Text type="secondary" style={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, fontWeight: 600, letterSpacing: 0.5, textTransform: "uppercase" }}>
-                  Featured Developers
-                </Text>
-                <div style={{ marginTop: 12 }}>
-                  <FeaturedDevs />
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72 p-4">
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => setCreateOpen(true)}
+                    className="bg-gradient-primary text-primary-foreground rounded-xl shadow-glow gap-2 mb-2"
+                  >
+                    <Plus className="w-4 h-4" /> New Project
+                  </Button>
+                  {[
+                    { label: "Home", path: "/feed" },
+                    { label: "Leaderboard", path: "/leaderboard" },
+                    { label: "Profile", path: "/profile" },
+                    { label: "Settings", path: "/settings" },
+                  ].map((i) => (
+                    <Link key={i.path} to={i.path} className="px-3 py-2.5 rounded-xl text-sm hover:bg-secondary transition-colors">
+                      {i.label}
+                    </Link>
+                  ))}
                 </div>
+              </SheetContent>
+            </Sheet>
+
+            <Link to="/" className="lg:hidden flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center">
+                <Code2 className="w-4 h-4 text-primary-foreground" />
+              </div>
+            </Link>
+
+            <h1 className="hidden sm:block font-mono font-bold text-lg">Home</h1>
+
+            <div className="flex-1 max-w-md ml-auto">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search projects, developers..."
+                  className="pl-9 rounded-xl bg-secondary/60 border-border/50 h-10"
+                />
+              </div>
+            </div>
+
+            <NotificationDropdown />
+            <Link to="/profile" className="w-9 h-9 rounded-xl overflow-hidden border-2 border-primary/40 shrink-0">
+              <img
+                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=80&h=80&fit=crop"
+                alt=""
+                className="w-full h-full object-cover"
+              />
+            </Link>
+          </div>
+        </header>
+
+        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6">
+          <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-8">
+            <main className="min-w-0">
+              <section className="mb-6">
+                <p className="font-mono text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                  Featured Developers
+                </p>
+                <FeaturedDevs />
+              </section>
+
+              <div className="flex gap-1 mb-5 border-b border-border/30 overflow-x-auto scrollbar-hide">
+                {filterTabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveFilter(tab.id)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors -mb-px",
+                      activeFilter === tab.id
+                        ? "border-primary text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                ))}
               </div>
 
-              {/* Filter tabs */}
-              <Tabs
-                activeKey={activeFilter}
-                onChange={setActiveFilter}
-                items={filterTabs}
-                size="large"
-                style={{ marginBottom: 16 }}
-              />
-
-              {/* Posts */}
-              <Space direction="vertical" size="large" style={{ width: "100%" }}>
+              <div className="flex flex-col gap-6">
                 {mockPosts.map((post) => (
                   <PostCard key={post.id} post={post} />
                 ))}
-              </Space>
-            </div>
+              </div>
+            </main>
 
-            <aside className="feed-aside">
-              <div style={{ position: "sticky", top: 80, display: "flex", flexDirection: "column", gap: 24 }}>
+            <aside className="hidden xl:block">
+              <div className="sticky top-20 flex flex-col gap-6">
                 <PopularCreators />
                 <LeaderboardSidebar />
               </div>
             </aside>
           </div>
-        </Content>
-      </Layout>
-
-      <style>{`
-        @media (max-width: 1200px) {
-          .feed-aside { display: none; }
-          .feed-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+        </div>
+      </div>
 
       <CreatePostDialog open={createOpen} onOpenChange={setCreateOpen} />
       <WelcomeModal />
-    </Layout>
+    </div>
   );
 }

@@ -1,14 +1,13 @@
 import { useState } from "react";
-import { Badge, Dropdown, Avatar, Tabs, Button, Empty, Typography } from "antd";
+import { Bell, Heart, MessageCircle, UserPlus, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
-  BellOutlined,
-  HeartFilled,
-  MessageOutlined,
-  UserAddOutlined,
-  StarFilled,
-} from "@ant-design/icons";
-
-const { Text } = Typography;
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 interface Notification {
   id: string;
@@ -29,42 +28,41 @@ const mockNotifications: Notification[] = [
 ];
 
 const typeIcon = {
-  like: <HeartFilled style={{ color: "#EF4444", fontSize: 11 }} />,
-  comment: <MessageOutlined style={{ color: "#F59E0B", fontSize: 11 }} />,
-  follow: <UserAddOutlined style={{ color: "#22C55E", fontSize: 11 }} />,
-  star: <StarFilled style={{ color: "#FACC15", fontSize: 11 }} />,
+  like: <Heart className="w-3 h-3 text-destructive fill-destructive" />,
+  comment: <MessageCircle className="w-3 h-3 text-primary" />,
+  follow: <UserPlus className="w-3 h-3 text-accent" />,
+  star: <Star className="w-3 h-3 text-primary fill-primary" />,
 };
 
 function NotificationList({ items }: { items: Notification[] }) {
   if (items.length === 0) {
-    return <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="All caught up!" style={{ padding: "32px 0" }} />;
+    return <div className="py-10 text-center text-sm text-muted-foreground">All caught up! 🎉</div>;
   }
   return (
-    <div style={{ maxHeight: 400, overflowY: "auto" }}>
+    <div className="max-h-[400px] overflow-y-auto">
       {items.map((n) => (
         <div
           key={n.id}
-          style={{
-            display: "flex",
-            gap: 12,
-            padding: "12px 16px",
-            borderBottom: "1px solid var(--hw-color-border-secondary)",
-            background: !n.read ? "rgba(245, 158, 11, 0.04)" : "transparent",
-            cursor: "pointer",
-          }}
+          className={cn(
+            "flex gap-3 p-3 border-b border-border/30 cursor-pointer hover:bg-secondary/40 transition-colors",
+            !n.read && "bg-primary/[0.04]"
+          )}
         >
-          <Badge count={typeIcon[n.type]} offset={[-4, 32]}>
-            <Avatar src={n.user.avatar} size={40} />
-          </Badge>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, lineHeight: 1.4 }}>
-              <Text strong>{n.user.name}</Text>{" "}
-              <Text type="secondary">{n.message}</Text>
-              {n.project && <Text strong> {n.project}</Text>}
+          <div className="relative shrink-0">
+            <img src={n.user.avatar} alt="" className="w-10 h-10 rounded-lg object-cover" />
+            <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-card border border-border/50 flex items-center justify-center">
+              {typeIcon[n.type]}
             </div>
-            <Text type="secondary" style={{ fontSize: 11, fontFamily: "JetBrains Mono, monospace" }}>{n.time}</Text>
           </div>
-          {!n.read && <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#F59E0B", marginTop: 8 }} />}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm leading-snug">
+              <span className="font-medium">{n.user.name}</span>{" "}
+              <span className="text-muted-foreground">{n.message}</span>
+              {n.project && <span className="font-medium"> {n.project}</span>}
+            </p>
+            <p className="text-[11px] text-muted-foreground font-mono mt-0.5">{n.time}</p>
+          </div>
+          {!n.read && <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />}
         </div>
       ))}
     </div>
@@ -76,37 +74,38 @@ export function NotificationDropdown() {
   const unreadCount = mockNotifications.filter((n) => !n.read).length;
   const unread = mockNotifications.filter((n) => !n.read);
 
-  const content = (
-    <div style={{ width: 380, background: "var(--hw-color-bg-elevated)", border: "1px solid var(--hw-color-border)", borderRadius: 12, overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.4)" }}>
-      <div style={{ padding: "16px 16px 0" }}>
-        <Text strong style={{ fontSize: 15, fontFamily: "JetBrains Mono, monospace" }}>Notifications</Text>
-      </div>
-      <Tabs
-        defaultActiveKey="all"
-        size="small"
-        style={{ padding: "0 16px" }}
-        items={[
-          { key: "all", label: `All (${mockNotifications.length})`, children: <NotificationList items={mockNotifications} /> },
-          { key: "unread", label: `Unread (${unread.length})`, children: <NotificationList items={unread} /> },
-        ]}
-      />
-      <div style={{ padding: 12, borderTop: "1px solid var(--hw-color-border-secondary)", textAlign: "center" }}>
-        <Button type="link" size="small">View all notifications</Button>
-      </div>
-    </div>
-  );
-
   return (
-    <Dropdown
-      open={open}
-      onOpenChange={setOpen}
-      trigger={["click"]}
-      placement="bottomRight"
-      dropdownRender={() => content}
-    >
-      <Badge count={unreadCount} size="small">
-        <Button type="text" shape="circle" icon={<BellOutlined style={{ fontSize: 18 }} />} />
-      </Badge>
-    </Dropdown>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="icon" className="relative rounded-xl">
+          <Bell className="w-5 h-5" />
+          {unreadCount > 0 && (
+            <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-mono font-bold flex items-center justify-center">
+              {unreadCount}
+            </span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-[380px] p-0 rounded-2xl overflow-hidden">
+        <div className="px-4 pt-4 pb-2">
+          <h3 className="font-mono font-bold text-sm">Notifications</h3>
+        </div>
+        <Tabs defaultValue="all" className="w-full">
+          <TabsList className="mx-4 bg-secondary/60">
+            <TabsTrigger value="all" className="text-xs">All ({mockNotifications.length})</TabsTrigger>
+            <TabsTrigger value="unread" className="text-xs">Unread ({unread.length})</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all" className="mt-2">
+            <NotificationList items={mockNotifications} />
+          </TabsContent>
+          <TabsContent value="unread" className="mt-2">
+            <NotificationList items={unread} />
+          </TabsContent>
+        </Tabs>
+        <div className="p-3 border-t border-border/30 text-center">
+          <Button variant="link" size="sm" className="text-xs text-primary">View all notifications</Button>
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
